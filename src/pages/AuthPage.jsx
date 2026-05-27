@@ -62,7 +62,8 @@ const AuthPage = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch('/api/auth/forgot-password', {
+      const baseUrl = import.meta.env.VITE_API_BASE_URL || 'https://breathe-esg-backend-77b2.onrender.com/api';
+      const response = await fetch(`${baseUrl}/auth/forgot-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: forgotEmail })
