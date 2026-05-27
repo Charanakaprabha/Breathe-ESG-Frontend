@@ -3627,19 +3627,18 @@ const styles = {
     justifyContent: 'center',
     minHeight: '100vh',
     width: '100%',
-    background: 'radial-gradient(circle at 70% 30%, rgba(0, 168, 143, 0.08) 0%, transparent 55%), radial-gradient(circle at 10% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 45%), #050811',
+    background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
     fontFamily: 'var(--font-sans)',
     padding: '2rem'
   },
   loginCard: {
     width: '100%',
     maxWidth: '420px',
-    background: 'rgba(15, 23, 42, 0.65)',
-    backdropFilter: 'blur(16px)',
-    border: '1px solid rgba(255, 255, 255, 0.07)',
+    backgroundColor: '#ffffff',
+    border: '1px solid #e2e8f0',
     borderRadius: '16px',
     padding: '2.5rem',
-    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+    boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02)',
     boxSizing: 'border-box'
   },
   loginHeader: {
@@ -3657,13 +3656,13 @@ const styles = {
     fontFamily: 'var(--font-display)',
     fontSize: '1.75rem',
     fontWeight: '800',
-    color: '#ffffff',
+    color: '#0f172a',
     letterSpacing: '-0.02em'
   },
   loginTitle: {
     fontSize: '1.25rem',
     fontWeight: '700',
-    color: '#f8fafc',
+    color: '#1e293b',
     marginBottom: '0.35rem',
     fontFamily: 'var(--font-display)'
   },
@@ -3684,15 +3683,15 @@ const styles = {
   loginLabel: {
     fontSize: '0.75rem',
     fontWeight: '600',
-    color: '#94a3b8'
+    color: '#475569'
   },
   loginInput: {
     width: '100%',
-    backgroundColor: 'rgba(2, 6, 23, 0.5)',
-    border: '1px solid #1e293b',
+    backgroundColor: '#f8fafc',
+    border: '1px solid #cbd5e1',
     borderRadius: '8px',
     padding: '0.75rem 1rem',
-    color: '#ffffff',
+    color: '#0f172a',
     fontSize: '0.85rem',
     outline: 'none',
     boxSizing: 'border-box',
@@ -3710,15 +3709,15 @@ const styles = {
     cursor: 'pointer',
     transition: 'all 0.2s ease',
     marginTop: '0.5rem',
-    boxShadow: '0 4px 12px rgba(0, 168, 143, 0.2)'
+    boxShadow: '0 4px 12px rgba(0, 168, 143, 0.15)'
   },
   loginErrorAlert: {
     display: 'flex',
     alignItems: 'center',
     gap: '0.5rem',
-    backgroundColor: 'rgba(239, 68, 68, 0.1)',
-    color: '#ef4444',
-    border: '1px solid rgba(239, 68, 68, 0.2)',
+    backgroundColor: '#fef2f2',
+    color: '#991b1b',
+    border: '1px solid #fca5a5',
     borderRadius: '8px',
     padding: '0.75rem 1rem',
     fontSize: '0.8rem',
