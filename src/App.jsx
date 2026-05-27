@@ -2479,6 +2479,19 @@ const App = () => {
             <Settings size={18} />
             {!sidebarCollapsed && <span>Settings</span>}
           </div>
+
+          <div 
+            onClick={() => {
+              setIsAuthenticated(false);
+              localStorage.removeItem('esg_site_authenticated');
+              showToast('warning', 'Logged out of ESG console.');
+            }}
+            className="sidebar-link"
+            style={{ color: '#ef4444', marginTop: 'auto' }}
+          >
+            <Lock size={18} />
+            {!sidebarCollapsed && <span>Log Out</span>}
+          </div>
         </nav>
 
         {/* Sidebar bottom Profile Card */}
