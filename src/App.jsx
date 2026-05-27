@@ -95,6 +95,23 @@ const App = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+      if (window.innerWidth > 768) {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const isMobile = windowWidth <= 768;
+  const isSidebarCollapsed = sidebarCollapsed && !isMobile;
   const [persons, setPersons] = useState([
     { name: 'Admin', email: 'admin@breatheesg.com', role: 'Super Admin', initials: 'AD' }
   ]);
@@ -2413,12 +2430,12 @@ const App = () => {
       </div>
       
       {/* Sidebar Navigation */}
-      <aside className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''} ${mobileMenuOpen ? 'mobile-open' : ''}`}>
+      <aside className={`sidebar ${isSidebarCollapsed ? 'collapsed' : ''} ${mobileMenuOpen ? 'mobile-open' : ''}`}>
         {/* Brand header */}
         <div className="sidebar-header">
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'flex-start', gap: sidebarCollapsed ? '0' : '0.5rem', overflow: 'hidden', width: '100%' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: isSidebarCollapsed ? 'center' : 'flex-start', gap: isSidebarCollapsed ? '0' : '0.5rem', overflow: 'hidden', width: '100%' }}>
             <img src={logo} alt="Breathe-ESG" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />
-            {!sidebarCollapsed && (
+            {!isSidebarCollapsed && (
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <span style={styles.sidebarBrandTitleText}>Breathe-ESG</span>
                 <span style={styles.sidebarBrandSubtitleText}>Emissions Management</span>
@@ -2434,7 +2451,7 @@ const App = () => {
             className={`sidebar-link ${activeTab === 'dashboard' ? 'active' : ''}`}
           >
             <LayoutDashboard size={18} />
-            {!sidebarCollapsed && <span>Dashboard</span>}
+            {!isSidebarCollapsed && <span>Dashboard</span>}
           </div>
 
           <div 
@@ -2442,7 +2459,7 @@ const App = () => {
             className={`sidebar-link ${activeTab === 'upload' ? 'active' : ''}`}
           >
             <Database size={18} />
-            {!sidebarCollapsed && <span>Upload Data</span>}
+            {!isSidebarCollapsed && <span>Upload Data</span>}
           </div>
 
           <div 
@@ -2450,8 +2467,8 @@ const App = () => {
             className={`sidebar-link ${activeTab === 'review' ? 'active' : ''}`}
           >
             <ClipboardList size={18} />
-            {!sidebarCollapsed && <span>Review Queue</span>}
-            {!sidebarCollapsed && stats.pending_count > 0 && (
+            {!isSidebarCollapsed && <span>Review Queue</span>}
+            {!isSidebarCollapsed && stats.pending_count > 0 && (
               <span style={styles.sidebarReviewBadge}>{stats.pending_count}</span>
             )}
           </div>
@@ -2461,7 +2478,7 @@ const App = () => {
             className={`sidebar-link ${activeTab === 'audit' ? 'active' : ''}`}
           >
             <Shield size={18} />
-            {!sidebarCollapsed && <span>Audit Logs</span>}
+            {!isSidebarCollapsed && <span>Audit Logs</span>}
           </div>
 
           <div 
@@ -2469,7 +2486,7 @@ const App = () => {
             className={`sidebar-link ${activeTab === 'organizations' ? 'active' : ''}`}
           >
             <Building2 size={18} />
-            {!sidebarCollapsed && <span>Organizations</span>}
+            {!isSidebarCollapsed && <span>Organizations</span>}
           </div>
 
           <div 
@@ -2477,7 +2494,7 @@ const App = () => {
             className={`sidebar-link ${activeTab === 'settings' ? 'active' : ''}`}
           >
             <Settings size={18} />
-            {!sidebarCollapsed && <span>Settings</span>}
+            {!isSidebarCollapsed && <span>Settings</span>}
           </div>
 
           <div 
@@ -2490,14 +2507,14 @@ const App = () => {
             style={{ color: '#ef4444', marginTop: 'auto' }}
           >
             <Lock size={18} />
-            {!sidebarCollapsed && <span>Log Out</span>}
+            {!isSidebarCollapsed && <span>Log Out</span>}
           </div>
         </nav>
 
         {/* Sidebar bottom Profile Card */}
-        <div className="sidebar-footer">
+        <div className="sidebar-footer" style={{ position: 'relative' }}>
           {/* Role switcher dropdown popover */}
-          {roleDropdownOpen && !sidebarCollapsed && (
+          {roleDropdownOpen && !isSidebarCollapsed && (
             <div style={styles.popoverRoleDropdown}>
               <div style={styles.popoverTitle}>Active Persona</div>
               {persons.map((p, idx) => (
@@ -2541,27 +2558,27 @@ const App = () => {
             <div className="sidebar-avatar">
               {currentUser.initials}
             </div>
-            {!sidebarCollapsed && (
+            {!isSidebarCollapsed && (
               <div className="sidebar-profile-details">
                 <span className="sidebar-username">{currentUser.name}</span>
                 <span className="sidebar-userrole">{activeOrg}</span>
               </div>
             )}
-            {!sidebarCollapsed && <ChevronDown size={14} color="var(--text-sidebar)" />}
+            {!isSidebarCollapsed && <ChevronDown size={14} color="var(--text-sidebar)" />}
           </div>
         </div>
         
         <button 
           onClick={() => setSidebarCollapsed(!sidebarCollapsed)} 
           className="sidebar-toggle-btn"
-          title={sidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+          title={isSidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
         >
-          {sidebarCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+          {isSidebarCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
         </button>
       </aside>
 
       {/* Main Content Area */}
-      <div className={`main-content ${sidebarCollapsed ? 'collapsed' : ''}`}>
+      <div className={`main-content ${isSidebarCollapsed ? 'collapsed' : ''}`}>
         
         {/* Global Toast Notification */}
         {toast && (
@@ -2694,7 +2711,7 @@ const styles = {
   },
   popoverRoleDropdown: {
     position: 'absolute',
-    bottom: '72px',
+    bottom: 'calc(100% + 8px)',
     left: '12px',
     right: '12px',
     backgroundColor: '#1e293b',

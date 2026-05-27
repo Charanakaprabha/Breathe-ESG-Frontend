@@ -997,7 +997,7 @@ button, input, select, textarea {
   
   .sidebar-header {
     height: var(--topbar-height) !important;
-    padding: 0 1.5rem !important;
+    padding: 0 4.5rem 0 1.5rem !important;
     display: flex !important;
     align-items: center !important;
     border-bottom: 1px solid var(--border-sidebar) !important;
