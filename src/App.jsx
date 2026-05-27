@@ -60,6 +60,25 @@ const CustomBarTooltip = ({ active, payload }) => {
 };
 
 const App = () => {
+  // Authentication State
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return localStorage.getItem('esg_site_authenticated') === 'true';
+  });
+  const [loginUsername, setLoginUsername] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    if (loginUsername === 'Admin' && loginPassword === 'Admin@5583') {
+      setIsAuthenticated(true);
+      localStorage.setItem('esg_site_authenticated', 'true');
+      setLoginError('');
+    } else {
+      setLoginError('Invalid Administrator credentials.');
+    }
+  };
+
   // Core State
   const [records, setRecords] = useState([]);
   const [batches, setBatches] = useState([]);
@@ -2298,6 +2317,59 @@ const App = () => {
     );
   };
 
+  if (!isAuthenticated) {
+    return (
+      <div style={styles.loginScreenWrapper}>
+        <div style={styles.loginCard}>
+          <div style={styles.loginHeader}>
+            <div style={styles.loginLogoRow}>
+              <Shield size={32} color="#00a88f" />
+              <span style={styles.loginBrandTitle}>Breathe ESG</span>
+            </div>
+            <h2 style={styles.loginTitle}>Compliance Console Login</h2>
+            <p style={styles.loginSubtitle}>Access the enterprise emissions ledger</p>
+          </div>
+          
+          <form onSubmit={handleLoginSubmit} style={styles.loginForm}>
+            <div style={styles.loginFormGroup}>
+              <label style={styles.loginLabel}>Administrator Username</label>
+              <input
+                type="text"
+                style={styles.loginInput}
+                value={loginUsername}
+                onChange={(e) => setLoginUsername(e.target.value)}
+                placeholder="Enter username"
+                required
+              />
+            </div>
+            <div style={styles.loginFormGroup}>
+              <label style={styles.loginLabel}>Security Password</label>
+              <input
+                type="password"
+                style={styles.loginInput}
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+              />
+            </div>
+
+            {loginError && (
+              <div style={styles.loginErrorAlert}>
+                <AlertTriangle size={16} />
+                <span>{loginError}</span>
+              </div>
+            )}
+
+            <button type="submit" style={styles.loginSubmitBtn}>
+              Enter Console
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="app-container">
       
@@ -2431,6 +2503,23 @@ const App = () => {
                   {p.name}
                 </div>
               ))}
+              <div 
+                style={{
+                  ...styles.popoverItem,
+                  borderTop: '1px solid #334155',
+                  color: '#ef4444',
+                  marginTop: '0.5rem',
+                  paddingTop: '0.5rem'
+                }}
+                onClick={() => {
+                  setIsAuthenticated(false);
+                  localStorage.removeItem('esg_site_authenticated');
+                  setRoleDropdownOpen(false);
+                  showToast('warning', 'Logged out of ESG console.');
+                }}
+              >
+                Log Out
+              </div>
             </div>
           )}
 
@@ -3531,6 +3620,109 @@ const styles = {
     zIndex: 250,
     fontWeight: '600',
     fontSize: '0.85rem'
+  },
+  loginScreenWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '100vh',
+    width: '100%',
+    background: 'radial-gradient(circle at 70% 30%, rgba(0, 168, 143, 0.08) 0%, transparent 55%), radial-gradient(circle at 10% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 45%), #050811',
+    fontFamily: 'var(--font-sans)',
+    padding: '2rem'
+  },
+  loginCard: {
+    width: '100%',
+    maxWidth: '420px',
+    background: 'rgba(15, 23, 42, 0.65)',
+    backdropFilter: 'blur(16px)',
+    border: '1px solid rgba(255, 255, 255, 0.07)',
+    borderRadius: '16px',
+    padding: '2.5rem',
+    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+    boxSizing: 'border-box'
+  },
+  loginHeader: {
+    textAlign: 'center',
+    marginBottom: '2rem'
+  },
+  loginLogoRow: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '0.75rem',
+    marginBottom: '1rem'
+  },
+  loginBrandTitle: {
+    fontFamily: 'var(--font-display)',
+    fontSize: '1.75rem',
+    fontWeight: '800',
+    color: '#ffffff',
+    letterSpacing: '-0.02em'
+  },
+  loginTitle: {
+    fontSize: '1.25rem',
+    fontWeight: '700',
+    color: '#f8fafc',
+    marginBottom: '0.35rem',
+    fontFamily: 'var(--font-display)'
+  },
+  loginSubtitle: {
+    fontSize: '0.8rem',
+    color: '#64748b'
+  },
+  loginForm: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1.25rem'
+  },
+  loginFormGroup: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.4rem'
+  },
+  loginLabel: {
+    fontSize: '0.75rem',
+    fontWeight: '600',
+    color: '#94a3b8'
+  },
+  loginInput: {
+    width: '100%',
+    backgroundColor: 'rgba(2, 6, 23, 0.5)',
+    border: '1px solid #1e293b',
+    borderRadius: '8px',
+    padding: '0.75rem 1rem',
+    color: '#ffffff',
+    fontSize: '0.85rem',
+    outline: 'none',
+    boxSizing: 'border-box',
+    transition: 'border-color 0.2s ease'
+  },
+  loginSubmitBtn: {
+    width: '100%',
+    backgroundColor: '#00a88f',
+    border: 'none',
+    borderRadius: '8px',
+    padding: '0.75rem 1rem',
+    color: '#ffffff',
+    fontSize: '0.9rem',
+    fontWeight: '700',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    marginTop: '0.5rem',
+    boxShadow: '0 4px 12px rgba(0, 168, 143, 0.2)'
+  },
+  loginErrorAlert: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+    color: '#ef4444',
+    border: '1px solid rgba(239, 68, 68, 0.2)',
+    borderRadius: '8px',
+    padding: '0.75rem 1rem',
+    fontSize: '0.8rem',
+    fontWeight: '600'
   }
 };
 
