@@ -110,6 +110,7 @@ const UploadPage = () => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('sourceType', sourceType);
+    formData.append('source_type', sourceType);
 
     try {
       const response = await api.post('/ingestion/upload', formData, {
