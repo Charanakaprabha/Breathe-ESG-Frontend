@@ -2342,7 +2342,7 @@ const App = () => {
             <div style={styles.loginLogoRow}>
               <img src={logo} alt="Breathe ESG" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />
             </div>
-            <h2 style={styles.loginTitle}>Compliance Console Login</h2>
+            <h2 style={styles.loginTitle}>Breathe-ESG Console Login</h2>
             <p style={styles.loginSubtitle}>Access the enterprise emissions ledger</p>
           </div>
           
