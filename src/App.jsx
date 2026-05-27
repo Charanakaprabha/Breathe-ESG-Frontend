@@ -2323,8 +2323,7 @@ const App = () => {
         <div style={styles.loginCard}>
           <div style={styles.loginHeader}>
             <div style={styles.loginLogoRow}>
-              <Shield size={32} color="#00a88f" />
-              <span style={styles.loginBrandTitle}>Breathe ESG</span>
+              <img src={logo} alt="Breathe ESG" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />
             </div>
             <h2 style={styles.loginTitle}>Compliance Console Login</h2>
             <p style={styles.loginSubtitle}>Access the enterprise emissions ledger</p>
@@ -2332,8 +2331,9 @@ const App = () => {
           
           <form onSubmit={handleLoginSubmit} style={styles.loginForm}>
             <div style={styles.loginFormGroup}>
-              <label style={styles.loginLabel}>Administrator Username</label>
+              <label htmlFor="admin-username" style={styles.loginLabel}>Administrator Username</label>
               <input
+                id="admin-username"
                 type="text"
                 style={styles.loginInput}
                 value={loginUsername}
@@ -2343,8 +2343,9 @@ const App = () => {
               />
             </div>
             <div style={styles.loginFormGroup}>
-              <label style={styles.loginLabel}>Security Password</label>
+              <label htmlFor="admin-password" style={styles.loginLabel}>Security Password</label>
               <input
+                id="admin-password"
                 type="password"
                 style={styles.loginInput}
                 value={loginPassword}
@@ -3639,7 +3640,10 @@ const styles = {
     borderRadius: '16px',
     padding: '2.5rem',
     boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02)',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    position: 'relative',
+    zIndex: 10,
+    pointerEvents: 'auto'
   },
   loginHeader: {
     textAlign: 'center',
@@ -3695,7 +3699,9 @@ const styles = {
     fontSize: '0.85rem',
     outline: 'none',
     boxSizing: 'border-box',
-    transition: 'border-color 0.2s ease'
+    transition: 'border-color 0.2s ease',
+    cursor: 'text',
+    pointerEvents: 'auto'
   },
   loginSubmitBtn: {
     width: '100%',
