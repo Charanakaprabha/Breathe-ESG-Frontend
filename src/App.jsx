@@ -324,7 +324,7 @@ const App = () => {
 
       const { batch } = response.data;
       
-      showToast('success', `Ingestion Complete! Ingested ${batch.processed_rows} rows from ${fileName}.`);
+      showToast('success', 'Files are uploaded, check in the review queue to view and accept or reject');
       
       // Log audit entry
       logAuditAction(
@@ -2584,6 +2584,13 @@ const App = () => {
         {toast && (
           <div style={{
             ...styles.toast,
+            top: isMobile ? '80px' : '20px',
+            left: isMobile ? '50%' : 'auto',
+            right: isMobile ? 'auto' : '20px',
+            transform: isMobile ? 'translateX(-50%)' : 'none',
+            width: isMobile ? 'calc(100% - 40px)' : 'auto',
+            maxWidth: isMobile ? '400px' : 'none',
+            zIndex: 1200,
             backgroundColor: toast.type === 'success' ? 'var(--success)' : (toast.type === 'warning' ? 'var(--warning)' : 'var(--danger)')
           }} className="fade-in">
             {toast.type === 'success' ? <CheckCircle size={18} /> : <AlertTriangle size={18} />}
