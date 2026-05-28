@@ -337,7 +337,12 @@ const App = () => {
 
       fetchData();
     } catch (err) {
-      showToast('danger', `Pipeline failed: ${err.response?.data?.error || 'Unresolved mapping error.'}`);
+      const errMsg = err.response?.data?.error || '';
+      if (errMsg.includes('verification failed') || errMsg.includes('headers do not match') || errMsg.includes('not matched') || errMsg.includes('matched')) {
+        showToast('danger', 'File not matched to this template');
+      } else {
+        showToast('danger', `Pipeline failed: ${errMsg || 'Unresolved mapping error.'}`);
+      }
     } finally {
       setUploadingSource(null);
     }
@@ -2585,16 +2590,21 @@ const App = () => {
           <div style={{
             ...styles.toast,
             top: isMobile ? '80px' : '20px',
-            left: isMobile ? '50%' : 'auto',
-            right: isMobile ? 'auto' : '20px',
-            transform: isMobile ? 'translateX(-50%)' : 'none',
-            width: isMobile ? 'calc(100% - 40px)' : 'auto',
-            maxWidth: isMobile ? '400px' : 'none',
+            left: isMobile ? '16px' : 'auto',
+            right: isMobile ? '16px' : '20px',
+            transform: 'none',
+            width: isMobile ? 'auto' : 'auto',
+            maxWidth: isMobile ? 'none' : 'none',
             zIndex: 1200,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: isMobile ? 'center' : 'flex-start',
+            textAlign: isMobile ? 'center' : 'left',
+            boxSizing: 'border-box',
             backgroundColor: toast.type === 'success' ? 'var(--success)' : (toast.type === 'warning' ? 'var(--warning)' : 'var(--danger)')
           }} className="fade-in">
-            {toast.type === 'success' ? <CheckCircle size={18} /> : <AlertTriangle size={18} />}
-            <span>{toast.message}</span>
+            {toast.type === 'success' ? <CheckCircle size={18} style={{ flexShrink: 0 }} /> : <AlertTriangle size={18} style={{ flexShrink: 0 }} />}
+            <span style={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>{toast.message}</span>
           </div>
         )}
 
